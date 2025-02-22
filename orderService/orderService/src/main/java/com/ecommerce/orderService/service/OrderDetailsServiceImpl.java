@@ -1,0 +1,40 @@
+package com.ecommerce.orderService.service;
+
+import com.ecommerce.orderService.models.OrderDetails;
+import com.ecommerce.orderService.models.OrderItem;
+import com.ecommerce.orderService.repository.OrderDetailsRepository;
+import com.ecommerce.orderService.repository.OrderItemRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+
+public class OrderDetailsServiceImpl implements OrderDetailsService{
+
+    @Autowired
+    private OrderDetailsRepository orderDetailsRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
+
+    @Override
+    public void addOrderDetails(OrderDetails orderDetails) {
+        orderDetailsRepository.save(orderDetails);
+    }
+
+    @Override
+    public OrderDetails getOrderDetailsById(Long id) {
+        return orderDetailsRepository.findById(id).orElseThrow( () -> new RuntimeException("Id not found -> " +id));
+    }
+
+    @Override
+    public List<OrderDetails> getOrderDetailsByUser(Long userId) {
+        return orderDetailsRepository.getOrderDetailsByUserId(userId);
+    }
+
+    @Override
+    public void updateOrderDetailsStatus(Long id, String orderStatus) {
+        OrderItem orderItem = orderItemRepository.findById(id).orElse(null);
+        orderItem.setStatus(orderStatus);
+        orderItemRepository.save(orderItem);
+    }
+}
