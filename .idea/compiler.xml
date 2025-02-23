@@ -2,7 +2,8 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
-      <profile name="Annotation profile for InventoryService" enabled="true">
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Annotation profile for orderService" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -11,8 +12,8 @@
         </processorPath>
         <module name="SellerService" />
         <module name="ProductService" />
-        <module name="InventoryService" />
         <module name="orderService" />
+        <module name="InventoryService" />
       </profile>
     </annotationProcessing>
   </component>

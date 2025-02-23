@@ -1,7 +1,10 @@
 package com.ecommerce.orderService.controller;
 
 import com.ecommerce.orderService.models.OrderDetails;
+
 import com.ecommerce.orderService.service.OrderDetailsService;
+//import com.ecommerce.orderService.service.OrderDetailsServiceImpl;
+//import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,12 +18,12 @@ public class OrderController {
     private OrderDetailsService orderDetailsService;
 
     @GetMapping("/{id}")
-    public OrderDetails getOrderDetailsById(@PathVariable Long id){
+    public OrderDetails getOrderDetailsById(@PathVariable("id") Long id){
         return orderDetailsService.getOrderDetailsById(id);
     }
 
-    @GetMapping("/{userId}")
-    public List<OrderDetails> getOrderDetailsByUser(@PathVariable Long userId){
+    @GetMapping("/user/{userId}")
+    public List<OrderDetails> getOrderDetailsByUser(@PathVariable("userId") Long userId){
         return orderDetailsService.getOrderDetailsByUser(userId);
     }
 
@@ -30,7 +33,7 @@ public class OrderController {
         return "Details added successfully";
     }
 
-    @PutMapping("/{orderID}/{status}")
+    @PutMapping("/{orderId}/{status}")
     public String updateOrderDetailsStatus(@PathVariable("orderId") Long orderId, @PathVariable("status") String status){
         orderDetailsService.updateOrderDetailsStatus(orderId,status);
         return "Details updated Successfully";

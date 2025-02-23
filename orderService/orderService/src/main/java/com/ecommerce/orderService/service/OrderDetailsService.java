@@ -5,14 +5,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public interface OrderDetailsService {
 
-    public void addOrderDetails(OrderDetails orderDetails);
+    void addOrderDetails(OrderDetails orderDetails);
 
-    public OrderDetails getOrderDetailsById(Long id);
+    OrderDetails getOrderDetailsById(Long id);
 
-    public List<OrderDetails> getOrderDetailsByUser(Long userId);
+    List<OrderDetails> getOrderDetailsByUser(Long userId);
 
-    public void updateOrderDetailsStatus(Long id, String orderStatus);
+    void updateOrderDetailsStatus(Long id, String orderStatus);
 }

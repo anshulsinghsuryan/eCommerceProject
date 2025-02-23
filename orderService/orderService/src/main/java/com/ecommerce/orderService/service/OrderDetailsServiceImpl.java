@@ -5,9 +5,11 @@ import com.ecommerce.orderService.models.OrderItem;
 import com.ecommerce.orderService.repository.OrderDetailsRepository;
 import com.ecommerce.orderService.repository.OrderItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class OrderDetailsServiceImpl implements OrderDetailsService{
 
     @Autowired
