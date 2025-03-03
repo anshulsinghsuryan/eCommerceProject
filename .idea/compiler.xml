@@ -3,6 +3,13 @@
   <component name="CompilerConfiguration">
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="eurekaserver" />
+        <module name="apigateway" />
+      </profile>
       <profile name="Annotation profile for orderService" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -24,6 +31,8 @@
       <module name="InventoryService" options="-parameters" />
       <module name="ProductService" options="-parameters" />
       <module name="SellerService" options="-parameters" />
+      <module name="apigateway" options="-parameters" />
+      <module name="eurekaserver" options="-parameters" />
       <module name="orderService" options="-parameters" />
     </option>
   </component>

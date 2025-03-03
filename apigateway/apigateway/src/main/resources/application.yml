@@ -1,0 +1,39 @@
+server:
+  port: 8080
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true  # ? API Gateway must register with Eureka
+    fetch-registry: true  # ? API Gateway must fetch the service registry
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+
+spring:
+  application:
+    name: apigateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true  # ? Enables automatic service discovery in Eureka
+          lower-case-service-id: true  # ? Ensure service names are case-insensitive
+      routes:
+        - id: orderservice  # Lowercase names for consistency
+          uri: lb://orderservice
+          predicates:
+            - Path=/orders/**
+
+        - id: productservice
+          uri: lb://productservice
+          predicates:
+            - Path=/products/**
+            - Path=/sellers/**
+
+        - id: inventoryservice
+          uri: lb://inventoryservice
+          predicates:
+            - Path=/inventory/**
