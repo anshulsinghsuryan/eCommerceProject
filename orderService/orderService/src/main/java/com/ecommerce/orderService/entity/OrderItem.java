@@ -1,4 +1,4 @@
-package com.ecommerce.orderService.models;
+package com.ecommerce.orderService.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

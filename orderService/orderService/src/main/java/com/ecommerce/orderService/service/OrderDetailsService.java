@@ -1,7 +1,6 @@
 package com.ecommerce.orderService.service;
 
-import com.ecommerce.orderService.models.OrderDetails;
-import org.springframework.stereotype.Service;
+import com.ecommerce.orderService.entity.OrderDetails;
 
 import java.util.List;
 

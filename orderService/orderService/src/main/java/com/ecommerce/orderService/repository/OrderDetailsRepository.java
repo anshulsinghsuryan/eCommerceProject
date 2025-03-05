@@ -1,7 +1,6 @@
 package com.ecommerce.orderService.repository;
 
-import com.ecommerce.orderService.models.OrderDetails;
-import com.ecommerce.orderService.models.OrderItem;
+import com.ecommerce.orderService.entity.OrderDetails;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

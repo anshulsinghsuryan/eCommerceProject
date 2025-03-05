@@ -1,7 +1,7 @@
 package com.ecommerce.orderService.service;
 
-import com.ecommerce.orderService.models.OrderDetails;
-import com.ecommerce.orderService.models.OrderItem;
+import com.ecommerce.orderService.entity.OrderDetails;
+import com.ecommerce.orderService.entity.OrderItem;
 import com.ecommerce.orderService.repository.OrderDetailsRepository;
 import com.ecommerce.orderService.repository.OrderItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;

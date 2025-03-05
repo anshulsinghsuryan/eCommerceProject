@@ -1,6 +1,6 @@
 package com.ecommerce.orderService.controller;
 
-import com.ecommerce.orderService.models.OrderDetails;
+import com.ecommerce.orderService.entity.OrderDetails;
 
 import com.ecommerce.orderService.service.OrderDetailsService;
 //import com.ecommerce.orderService.service.OrderDetailsServiceImpl;
