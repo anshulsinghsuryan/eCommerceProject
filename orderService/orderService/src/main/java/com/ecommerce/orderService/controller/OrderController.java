@@ -2,6 +2,7 @@ package com.ecommerce.orderService.controller;
 
 import com.ecommerce.orderService.entity.OrderDetails;
 
+import com.ecommerce.orderService.models.OrderResponse;
 import com.ecommerce.orderService.service.OrderDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class OrderController {
     }
 
     @PostMapping
-    public  OrderDetails addOrderDetails(@RequestBody OrderDetails orderDetails){
+    public OrderResponse addOrderDetails(@RequestBody OrderDetails orderDetails){
         return orderDetailsService.addOrderDetails(orderDetails);
     }
 
