@@ -2,6 +2,7 @@ package com.ecommerce.orderService.service;
 
 import com.ecommerce.orderService.entity.OrderDetails;
 import com.ecommerce.orderService.entity.OrderItem;
+import com.ecommerce.orderService.models.OrderResponse;
 import com.ecommerce.orderService.repository.OrderDetailsRepository;
 import com.ecommerce.orderService.repository.OrderItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,9 @@ public class OrderDetailsServiceImpl implements OrderDetailsService{
     private OrderItemRepository orderItemRepository;
 
     @Override
-    public void addOrderDetails(OrderDetails orderDetails) {
-        orderDetailsRepository.save(orderDetails);
+    public OrderResponse addOrderDetails(OrderDetails orderDetails) {
+        OrderDetails orderDetail = orderDetailsRepository.save(orderDetails);
+        return OrderResponse.builder().orderId(orderDetail.getOrderId()).status("Created").build();
     }
 
     @Override

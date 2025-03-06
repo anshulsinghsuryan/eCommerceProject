@@ -1,6 +1,8 @@
 package com.ecommerce.InventoryService.service;
 
 import com.ecommerce.InventoryService.entity.Inventory;
+import com.ecommerce.InventoryService.model.InventoryMessage;
+import com.ecommerce.InventoryService.model.InventoryResponse;
 import com.ecommerce.InventoryService.repository.InventoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,4 +43,23 @@ public class InventoryServiceImpl implements InventoryService{
                 throw new RuntimeException("Product not found in inventory");
             }
         }
+
+    public InventoryResponse decreaseStock(String productId) {
+        Optional<Inventory> inventoryOptional = inventoryRepository.findByProductId(productId);
+        InventoryResponse inventoryResponse = new InventoryResponse();
+        if (inventoryOptional.isPresent()) {
+            Inventory inventory = inventoryOptional.get();
+            if(inventory.getQuantity()>1){
+                inventoryResponse.setQuantity(inventory.getQuantity());
+                inventoryResponse.setMessage(InventoryMessage.In_Stock.name());
+                inventory.setQuantity(inventory.getQuantity()-1);
+                inventoryRepository.save(inventory);
+            }
+
+        } else {
+            throw new RuntimeException("Product out of Stock in inventory");
+        }
+
+        return InventoryResponse.builder().quantity(0).message(InventoryMessage.Out_of_Stock.name()).build();
+    }
 }

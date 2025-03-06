@@ -1,12 +1,13 @@
 package com.ecommerce.orderService.service;
 
 import com.ecommerce.orderService.entity.OrderDetails;
+import com.ecommerce.orderService.models.OrderResponse;
 
 import java.util.List;
 
 public interface OrderDetailsService {
 
-    void addOrderDetails(OrderDetails orderDetails);
+    OrderResponse addOrderDetails(OrderDetails orderDetails);
 
     OrderDetails getOrderDetailsById(Long id);
 

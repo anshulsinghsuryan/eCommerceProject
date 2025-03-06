@@ -2,6 +2,7 @@ package com.ecommerce.InventoryService.controller;
 
 
 import com.ecommerce.InventoryService.entity.Inventory;
+import com.ecommerce.InventoryService.model.InventoryResponse;
 import com.ecommerce.InventoryService.service.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -36,4 +37,10 @@ public class InventoryController {
         inventoryService.updateStock(productId, quantity);
         return "Stock updated successfully!";
     }
+    @PutMapping("/decrease/{productId}")
+    public InventoryResponse decreaseStock(@PathVariable String productId) {
+        return inventoryService.decreaseStock(productId);
+    }
+
+
 }

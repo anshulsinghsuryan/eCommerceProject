@@ -3,8 +3,6 @@ package com.ecommerce.orderService.controller;
 import com.ecommerce.orderService.entity.OrderDetails;
 
 import com.ecommerce.orderService.service.OrderDetailsService;
-//import com.ecommerce.orderService.service.OrderDetailsServiceImpl;
-//import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,9 +26,8 @@ public class OrderController {
     }
 
     @PostMapping
-    public  String addOrderDetails(@RequestBody OrderDetails orderDetails){
-        orderDetailsService.addOrderDetails(orderDetails);
-        return "Details added successfully";
+    public  OrderDetails addOrderDetails(@RequestBody OrderDetails orderDetails){
+        return orderDetailsService.addOrderDetails(orderDetails);
     }
 
     @PutMapping("/{orderId}/{status}")
