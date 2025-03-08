@@ -24,11 +24,13 @@ spring:
       routes:
         - id: orderService  # Lowercase names for consistency
           uri: http://localhost:8020
+#          uri: lb://ORDERSERVICE
           predicates:
             - Path=/orders/**
 
         - id: ProductService
           uri: http://localhost:8040
+#          uri: lb://PRODUCTSERVICE
           predicates:
             - Path=/products/**
             - Path=/sellers/**
@@ -36,5 +38,6 @@ spring:
 
         - id: InventoryService
           uri: http://localhost:8010
+#          uri: lb://INVENTORYSERVICE
           predicates:
             - Path=/inventory/**
