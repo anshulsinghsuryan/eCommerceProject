@@ -19,22 +19,22 @@ spring:
     gateway:
       discovery:
         locator:
-          enabled: true  # ? Enables automatic service discovery in Eureka
-          lower-case-service-id: true  # ? Ensure service names are case-insensitive
+          enabled: true
+          lower-case-service-id: true
       routes:
-        - id: orderservice  # Lowercase names for consistency
-          uri: lb://orderservice
+        - id: orderService  # Lowercase names for consistency
+          uri: http://localhost:8020
           predicates:
             - Path=/orders/**
 
-        - id: productservice
-          uri: lb://productservice
+        - id: ProductService
+          uri: http://localhost:8040
           predicates:
             - Path=/products/**
             - Path=/sellers/**
             - Path=/cart/**
 
-        - id: inventoryservice
-          uri: lb://inventoryservice
+        - id: InventoryService
+          uri: http://localhost:8010
           predicates:
             - Path=/inventory/**

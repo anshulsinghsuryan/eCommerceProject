@@ -3,6 +3,7 @@ package com.ecommerce.ProductService.controller;
 
 import com.ecommerce.ProductService.entity.Cart;
 import com.ecommerce.ProductService.entity.CartItem;
+import com.ecommerce.ProductService.model.OrderResponse;
 import com.ecommerce.ProductService.service.CartService;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,11 @@ public class CartController {
     @GetMapping("/{userId}")
     public Cart getCart(@PathVariable String userId) {
         return cartService.getCartByUser(userId);
+    }
+
+    @GetMapping("/place/{userId}")
+    public OrderResponse getOrderPlaced(@PathVariable String userId) {
+        return cartService.getOrderPlacedCart(userId);
     }
 
     @DeleteMapping("/remove/{userId}/{itemId}")
