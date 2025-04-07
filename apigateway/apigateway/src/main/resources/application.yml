@@ -5,8 +5,8 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
-    register-with-eureka: true  # ? API Gateway must register with Eureka
-    fetch-registry: true  # ? API Gateway must fetch the service registry
+    register-with-eureka: true
+    fetch-registry: true
 
 logging:
   level:
@@ -15,29 +15,48 @@ logging:
 spring:
   application:
     name: apigateway
+
   cloud:
     gateway:
       discovery:
         locator:
           enabled: true
           lower-case-service-id: true
+
       routes:
-        - id: orderService  # Lowercase names for consistency
+        # Routes to services (You can switch to lb:// when ready)
+        - id: orderservice
           uri: http://localhost:8020
-#          uri: lb://ORDERSERVICE
           predicates:
             - Path=/orders/**
 
-        - id: ProductService
+        - id: productservice
           uri: http://localhost:8040
-#          uri: lb://PRODUCTSERVICE
           predicates:
             - Path=/products/**
             - Path=/sellers/**
             - Path=/cart/**
 
-        - id: InventoryService
+        - id: inventoryservice
           uri: http://localhost:8010
-#          uri: lb://INVENTORYSERVICE
           predicates:
             - Path=/inventory/**
+
+        # Swagger routes
+        - id: swagger-orders
+          uri: http://localhost:8020
+          predicates:
+            - Path=/orders/swagger-ui.html
+            - Path=/orders/v3/api-docs
+
+        - id: swagger-inventory
+          uri: http://localhost:8010
+          predicates:
+            - Path=/inventory/swagger-ui.html
+            - Path=/inventory/v3/api-docs
+
+        - id: swagger-products
+          uri: http://localhost:8040
+          predicates:
+            - Path=/products/swagger-ui.html
+            - Path=/products/v3/api-docs
