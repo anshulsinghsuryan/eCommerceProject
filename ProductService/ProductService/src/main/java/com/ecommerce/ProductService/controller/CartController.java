@@ -27,7 +27,7 @@ public class CartController {
         return cartService.getCartByUser(userId);
     }
 
-    @GetMapping("/place/{userId}")
+    @PostMapping("/place/{userId}")
     public OrderResponse getOrderPlaced(@PathVariable String userId) {
         return cartService.getOrderPlacedCart(userId);
     }

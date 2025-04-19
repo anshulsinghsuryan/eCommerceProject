@@ -26,6 +26,12 @@ public class InventoryController {
         return inventoryService.getAllInventory();
     }
 
+    //Todo: getAll inventory by seller Id
+    @GetMapping("inventory/{sellerId}")
+    public List<Inventory> getAllInventoryBySeller(@PathVariable String sellerId) {
+        return inventoryService.getAllInventoryBySeller(sellerId);
+    }
+
     @PostMapping("/add")
     public String addStock(@RequestBody Inventory inventory) {
         inventoryService.addStock(inventory);

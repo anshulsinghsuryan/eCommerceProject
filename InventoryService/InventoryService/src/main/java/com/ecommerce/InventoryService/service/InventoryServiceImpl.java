@@ -62,4 +62,10 @@ public class InventoryServiceImpl implements InventoryService{
 
         return InventoryResponse.builder().quantity(0).message(InventoryMessage.Out_of_Stock.name()).build();
     }
+
+    @Override
+    public List<Inventory> getAllInventoryBySeller(String sellerId) {
+        List<Inventory> inventoryOptional = inventoryRepository.getAllInventoryBySeller(sellerId);
+        return inventoryOptional;
+    }
 }
