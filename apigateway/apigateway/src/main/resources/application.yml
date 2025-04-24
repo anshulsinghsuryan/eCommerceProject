@@ -41,22 +41,26 @@ spring:
           uri: http://localhost:8010
           predicates:
             - Path=/inventory/**
-
-        # Swagger routes
-        - id: swagger-orders
-          uri: http://localhost:8020
+        - id: userservice
+          uri: http://localhost:9000
           predicates:
-            - Path=/orders/swagger-ui.html
-            - Path=/orders/v3/api-docs
+            - Path=/users/**
 
-        - id: swagger-inventory
-          uri: http://localhost:8010
-          predicates:
-            - Path=/inventory/swagger-ui.html
-            - Path=/inventory/v3/api-docs
-
-        - id: swagger-products
-          uri: http://localhost:8040
-          predicates:
-            - Path=/products/swagger-ui.html
-            - Path=/products/v3/api-docs
+#        # Swagger routes
+#        - id: swagger-orders
+#          uri: http://localhost:8020
+#          predicates:
+#            - Path=/orders/swagger-ui.html
+#            - Path=/orders/v3/api-docs
+#
+#        - id: swagger-inventory
+#          uri: http://localhost:8010
+#          predicates:
+#            - Path=/inventory/swagger-ui.html
+#            - Path=/inventory/v3/api-docs
+#
+#        - id: swagger-products
+#          uri: http://localhost:8040
+#          predicates:
+#            - Path=/products/swagger-ui.html
+#            - Path=/products/v3/api-docs

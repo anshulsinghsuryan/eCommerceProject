@@ -48,9 +48,9 @@ public class UserController {
         return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
     }
 
-    @GetMapping("/validate/{token}")
-    public String getUserByUsername(@PathVariable String token, @RequestBody AuthRequest authRequest) {
-        return jwtUtil.validateToken(token, authRequest)? "Token is Valid" : "Token is inValid";
+    @GetMapping("/validate")
+    public String getUserByUsername(@RequestParam("token") String token, @RequestBody AuthRequest authRequest) {
+        return jwtUtil.validateToken(token, authRequest) ? "Token is Valid" : "Token is inValid";
     }
 
     @GetMapping
