@@ -6,12 +6,13 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
+import java.security.Key;
 import java.util.Date;
 
 @Component
 public class JwtService {
 
-    private static final String SECRET = "my_jwt_secret"; // Use env variable in prod
+    private static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512); // Use env variable in prod
     private static final long EXPIRATION = 1000 * 60 * 60 * 10; // 10 hours
 
     public String generateToken(String username) {
@@ -19,13 +20,13 @@ public class JwtService {
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
-                .signWith(SignatureAlgorithm.HS512, SECRET)
+                .signWith(SECRET_KEY)
                 .compact();
     }
 
     public String extractUsername(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(SECRET.getBytes())
+                .setSigningKey(SECRET_KEY)
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
