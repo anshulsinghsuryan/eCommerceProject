@@ -43,6 +43,7 @@ public class InventoryController {
         inventoryService.updateStock(productId, quantity);
         return "Stock updated successfully!";
     }
+
     @PutMapping("/decrease/{productId}")
     public InventoryResponse decreaseStock(@PathVariable String productId) {
         return inventoryService.decreaseStock(productId);

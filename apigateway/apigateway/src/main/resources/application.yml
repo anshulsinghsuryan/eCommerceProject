@@ -35,9 +35,7 @@ spring:
         - id: productservice
           uri: http://localhost:8040
           predicates:
-            - Path=/products/**
-            - Path=/sellers/**
-            - Path=/cart/**
+            - Path=/product/**,/sellers/**,/cart/**
           filters:
             - AuthenticationFilter
 
