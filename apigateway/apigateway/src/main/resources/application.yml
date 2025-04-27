@@ -29,6 +29,8 @@ spring:
           uri: http://localhost:8020
           predicates:
             - Path=/orders/**
+          filters:
+            - AuthenticationFilter
 
         - id: productservice
           uri: http://localhost:8040
@@ -36,15 +38,21 @@ spring:
             - Path=/products/**
             - Path=/sellers/**
             - Path=/cart/**
+          filters:
+            - AuthenticationFilter
 
         - id: inventoryservice
           uri: http://localhost:8010
           predicates:
             - Path=/inventory/**
+          filters:
+            - AuthenticationFilter
         - id: userservice
           uri: http://localhost:9000
           predicates:
             - Path=/users/**
+          filters:
+            - AuthenticationFilter
 
 #        # Swagger routes
 #        - id: swagger-orders
