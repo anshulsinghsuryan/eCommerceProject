@@ -6,6 +6,9 @@ import com.ecommerce.user.userService.Models.Response;
 import com.ecommerce.user.userService.service.UserService;
 import com.ecommerce.user.userService.entity.User;
 import com.ecommerce.user.userService.service.JwtService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+//import io.swagger.v3.oas.annotations.parameters.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +34,8 @@ public class UserController {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Operation(summary = "Login User", description = "Authenticate a user and generate a JWT token")
+    @ApiResponse(responseCode = "200", description = "Successful Login")
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest request) {
         authenticationManager.authenticate(
@@ -43,16 +48,23 @@ public class UserController {
         return ResponseEntity.ok(new AuthResponse(token));
     }
 
+    @Operation(summary = "Register User", description = "Register a new user in the system")
+    @ApiResponse(responseCode = "201", description = "User successfully registered")
     @PostMapping("/register")
     public ResponseEntity<Response> registerUser(@RequestBody User user) {
         return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Validate Token", description = "Validate a JWT token")
+    @ApiResponse(responseCode = "200", description = "Token is valid")
+    @ApiResponse(responseCode = "400", description = "Invalid Token")
     @GetMapping("/validate")
     public String getUserByUsername(@RequestParam("token") String token, @RequestBody AuthRequest authRequest) {
-        return jwtUtil.validateToken(token, authRequest) ? "Token is Valid" : "Token is inValid";
+        return jwtUtil.validateToken(token, authRequest) ? "Token is Valid" : "Token is Invalid";
     }
 
+    @Operation(summary = "Get User by Username", description = "Retrieve the username of the currently authenticated user")
+    @ApiResponse(responseCode = "200", description = "Username retrieved successfully")
     @GetMapping
     public String getUserByUsernames() {
         return "username";

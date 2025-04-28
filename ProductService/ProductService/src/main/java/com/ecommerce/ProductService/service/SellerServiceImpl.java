@@ -1,13 +1,18 @@
 package com.ecommerce.ProductService.service;
 
 import com.ecommerce.ProductService.entity.Seller;
+import com.ecommerce.ProductService.exception.SellerAlreadyExistsException;
+import com.ecommerce.ProductService.model.SellerRequestDTO;
 import com.ecommerce.ProductService.repository.SellerRepository;
 import com.ecommerce.product.service.SellerService;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Service
 public class SellerServiceImpl implements SellerService {
@@ -27,7 +32,19 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public void addSeller(Seller seller) {
+    public void addSeller(SellerRequestDTO sellerRequestDTO) throws SellerAlreadyExistsException {
+
+        Seller sellers = sellerRepository.findByEmail(sellerRequestDTO.getEmail()).orElse(null);
+        if(ObjectUtils.isNotEmpty(sellers)){
+            throw new SellerAlreadyExistsException("Seller already present");
+        }
+
+        Seller seller = Seller.builder()
+                .email(sellerRequestDTO.getEmail())
+                .phone(sellerRequestDTO.getPhone())
+                .sellerName(sellerRequestDTO.getSellerName())
+                .build();
+
         sellerRepository.save(seller);
     }
 

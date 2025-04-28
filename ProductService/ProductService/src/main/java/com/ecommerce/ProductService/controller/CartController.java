@@ -5,6 +5,10 @@ import com.ecommerce.ProductService.entity.Cart;
 import com.ecommerce.ProductService.entity.CartItem;
 import com.ecommerce.ProductService.model.OrderResponse;
 import com.ecommerce.ProductService.service.CartService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,29 +21,41 @@ public class CartController {
         this.cartService = cartService;
     }
 
+    @Operation(summary = "Add item to cart", description = "Adds a cart item to the user's cart")
+    @ApiResponse(responseCode = "200", description = "Successfully added item to cart")
     @PostMapping("/add/{userId}")
-    public Cart addToCart(@PathVariable String userId, @RequestBody CartItem cartItem) {
+    public Cart addToCart(@Parameter(description = "User ID") @PathVariable String userId,
+                          @RequestBody CartItem cartItem) {
         return cartService.addToCart(userId, cartItem);
     }
 
+    @Operation(summary = "Get user cart", description = "Fetches the cart details of a specific user")
+    @ApiResponse(responseCode = "200", description = "Successfully fetched cart details")
     @GetMapping("/{userId}")
-    public Cart getCart(@PathVariable String userId) {
+    public Cart getCart(@Parameter(description = "User ID") @PathVariable String userId) {
         return cartService.getCartByUser(userId);
     }
 
+    @Operation(summary = "Place an order", description = "Places an order based on the user's cart")
+    @ApiResponse(responseCode = "200", description = "Successfully placed the order")
     @PostMapping("/place/{userId}")
-    public OrderResponse getOrderPlaced(@PathVariable String userId) {
+    public OrderResponse getOrderPlaced(@Parameter(description = "User ID") @PathVariable String userId) {
         return cartService.getOrderPlacedCart(userId);
     }
 
+    @Operation(summary = "Remove item from cart", description = "Removes a specific item from the user's cart")
+    @ApiResponse(responseCode = "200", description = "Successfully removed item from cart")
     @DeleteMapping("/remove/{userId}/{itemId}")
-    public String removeItem(@PathVariable String userId, @PathVariable Long itemId) {
+    public String removeItem(@Parameter(description = "User ID") @PathVariable String userId,
+                             @Parameter(description = "Item ID to remove") @PathVariable Long itemId) {
         cartService.removeItem(userId, itemId);
         return "Item removed successfully!";
     }
 
+    @Operation(summary = "Clear the cart", description = "Clears all items from the user's cart")
+    @ApiResponse(responseCode = "200", description = "Successfully cleared the cart")
     @DeleteMapping("/clear/{userId}")
-    public String clearCart(@PathVariable String userId) {
+    public String clearCart(@Parameter(description = "User ID") @PathVariable String userId) {
         cartService.clearCart(userId);
         return "Cart cleared!";
     }

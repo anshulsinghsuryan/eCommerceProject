@@ -1,9 +1,19 @@
 package com.ecommerce.ProductService.controller;
 
+
 import com.ecommerce.ProductService.entity.Seller;
+import com.ecommerce.ProductService.exception.SellerAlreadyExistsException;
+
+import com.ecommerce.ProductService.model.SellerRequestDTO;
 import com.ecommerce.product.service.SellerService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.parameters.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -14,30 +24,41 @@ public class SellerController {
     @Autowired
     private SellerService sellerService;
 
+    @Operation(summary = "Get all sellers", description = "Fetches a list of all sellers")
+    @ApiResponse(responseCode = "200", description = "Successfully retrieved list of sellers")
     @GetMapping
     public List<Seller> getAllSellers() {
         return sellerService.getAllSellers();
     }
 
+    @Operation(summary = "Get seller by ID", description = "Fetches seller details by seller ID")
+    @ApiResponse(responseCode = "200", description = "Successfully retrieved seller")
     @GetMapping("/{id}")
-    public Seller getSellerById(@PathVariable Long id) {
+    public Seller getSellerById(@Parameter(description = "Seller ID") @PathVariable Long id) {
         return sellerService.getSellerById(id);
     }
 
+    @Operation(summary = "Add a new seller", description = "Adds a new seller to the system")
+    @ApiResponse(responseCode = "201", description = "Successfully added seller")
     @PostMapping("/add")
-    public String addSeller(@RequestBody Seller seller) {
-        sellerService.addSeller(seller);
+    public String addSeller(@RequestBody SellerRequestDTO sellerRequestDTO) throws SellerAlreadyExistsException {
+        sellerService.addSeller(sellerRequestDTO);
         return "Seller added successfully!";
     }
 
+    @Operation(summary = "Update seller details", description = "Updates an existing seller's information")
+    @ApiResponse(responseCode = "200", description = "Successfully updated seller")
     @PutMapping("/update/{id}")
-    public String updateSeller(@PathVariable Long id, @RequestBody Seller seller) {
+    public String updateSeller(@Parameter(description = "Seller ID") @PathVariable Long id,
+                               @RequestBody Seller seller) {
         sellerService.updateSeller(id, seller);
         return "Seller updated successfully!";
     }
 
+    @Operation(summary = "Delete seller", description = "Deletes a seller based on ID")
+    @ApiResponse(responseCode = "200", description = "Successfully deleted seller")
     @DeleteMapping("/delete/{id}")
-    public String deleteSeller(@PathVariable Long id) {
+    public String deleteSeller(@Parameter(description = "Seller ID") @PathVariable Long id) {
         sellerService.deleteSeller(id);
         return "Seller deleted successfully!";
     }
