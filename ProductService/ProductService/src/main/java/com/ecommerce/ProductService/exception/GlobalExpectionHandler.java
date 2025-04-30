@@ -17,5 +17,11 @@ public class GlobalExpectionHandler {
         return SellerExceptionDTO.builder().message(exception.getMessage()).httpStatusCode(HttpStatus.BAD_REQUEST).build();
     }
 
+    @ExceptionHandler(SellerNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public SellerExceptionDTO sellerNotFound(SellerNotFoundException  exception){
+        return SellerExceptionDTO.builder().message(exception.getMessage()).httpStatusCode(HttpStatus.BAD_REQUEST).build();
+    }
+
 
 }

@@ -4,6 +4,7 @@ package com.ecommerce.ProductService.controller;
 import com.ecommerce.ProductService.entity.Seller;
 import com.ecommerce.ProductService.exception.SellerAlreadyExistsException;
 
+import com.ecommerce.ProductService.exception.SellerNotFoundException;
 import com.ecommerce.ProductService.model.SellerRequestDTO;
 import com.ecommerce.product.service.SellerService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,11 +32,11 @@ public class SellerController {
         return sellerService.getAllSellers();
     }
 
-    @Operation(summary = "Get seller by ID", description = "Fetches seller details by seller ID")
+    @Operation(summary = "Get seller by Email", description = "Fetches seller details by seller Email")
     @ApiResponse(responseCode = "200", description = "Successfully retrieved seller")
-    @GetMapping("/{id}")
-    public Seller getSellerById(@Parameter(description = "Seller ID") @PathVariable Long id) {
-        return sellerService.getSellerById(id);
+    @GetMapping("/{email}")
+    public Seller getSellerByEmail(@Parameter(description = "Seller ID") @PathVariable String email) throws SellerNotFoundException {
+        return sellerService.getSellerById(email);
     }
 
     @Operation(summary = "Add a new seller", description = "Adds a new seller to the system")
@@ -48,18 +49,18 @@ public class SellerController {
 
     @Operation(summary = "Update seller details", description = "Updates an existing seller's information")
     @ApiResponse(responseCode = "200", description = "Successfully updated seller")
-    @PutMapping("/update/{id}")
-    public String updateSeller(@Parameter(description = "Seller ID") @PathVariable Long id,
-                               @RequestBody Seller seller) {
-        sellerService.updateSeller(id, seller);
+    @PutMapping("/update/{email}")
+    public String updateSeller(@Parameter(description = "Seller ID") @PathVariable String email,
+                               @RequestBody Seller seller) throws SellerNotFoundException {
+        sellerService.updateSeller(email, seller);
         return "Seller updated successfully!";
     }
 
     @Operation(summary = "Delete seller", description = "Deletes a seller based on ID")
     @ApiResponse(responseCode = "200", description = "Successfully deleted seller")
-    @DeleteMapping("/delete/{id}")
-    public String deleteSeller(@Parameter(description = "Seller ID") @PathVariable Long id) {
-        sellerService.deleteSeller(id);
+    @DeleteMapping("/delete/{email}")
+    public String deleteSeller(@Parameter(description = "Seller ID") @PathVariable String email) throws SellerNotFoundException {
+        sellerService.deleteSeller(email);
         return "Seller deleted successfully!";
     }
 }

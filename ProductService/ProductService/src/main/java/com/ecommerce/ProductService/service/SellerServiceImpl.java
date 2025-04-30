@@ -2,6 +2,7 @@ package com.ecommerce.ProductService.service;
 
 import com.ecommerce.ProductService.entity.Seller;
 import com.ecommerce.ProductService.exception.SellerAlreadyExistsException;
+import com.ecommerce.ProductService.exception.SellerNotFoundException;
 import com.ecommerce.ProductService.model.SellerRequestDTO;
 import com.ecommerce.ProductService.repository.SellerRepository;
 import com.ecommerce.product.service.SellerService;
@@ -26,9 +27,9 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public Seller getSellerById(Long id) {
-        return sellerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Seller not found with id: " + id));
+    public Seller getSellerById(String email) throws SellerNotFoundException {
+        return sellerRepository.findByEmail(email)
+                .orElseThrow(() -> new SellerNotFoundException("Seller not found with id: " + id));
     }
 
     @Override
@@ -49,8 +50,8 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public void updateSeller(Long id, Seller seller) {
-        Optional<Seller> existingSeller = sellerRepository.findById(id);
+    public void updateSeller(String email, Seller seller) throws SellerNotFoundException {
+        Optional<Seller> existingSeller = sellerRepository.findByEmail(email);
         if (existingSeller.isPresent()) {
             Seller updatedSeller = existingSeller.get();
             updatedSeller.setSellerName(seller.getSellerName());
@@ -58,16 +59,16 @@ public class SellerServiceImpl implements SellerService {
             updatedSeller.setPhone(seller.getPhone());
             sellerRepository.save(updatedSeller);
         } else {
-            throw new RuntimeException("Seller not found with id: " + id);
+            throw new SellerNotFoundException("Seller not found with email: " + email);
         }
     }
 
     @Override
-    public void deleteSeller(Long id) {
-        if (sellerRepository.existsById(id)) {
-            sellerRepository.deleteById(id);
+    public void deleteSeller(String email) throws SellerNotFoundException {
+        if (sellerRepository.findByEmail(email).isPresent()) {
+            sellerRepository.deleteById(sellerRepository.findByEmail(email).get().getId());
         } else {
-            throw new RuntimeException("Seller not found with id: " + id);
+            throw new SellerNotFoundException("Seller not found with id: " + id);
         }
     }
 }
