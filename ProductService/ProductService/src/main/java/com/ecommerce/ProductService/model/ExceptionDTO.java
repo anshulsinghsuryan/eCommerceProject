@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatusCode;
 @Getter
 @Setter
 @Builder
-public class SellerExceptionDTO {
+public class ExceptionDTO {
 
     String message;
     HttpStatusCode httpStatusCode;

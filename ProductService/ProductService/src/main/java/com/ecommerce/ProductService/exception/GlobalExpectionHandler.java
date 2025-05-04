@@ -1,7 +1,7 @@
 package com.ecommerce.ProductService.exception;
 
 
-import com.ecommerce.ProductService.model.SellerExceptionDTO;
+import com.ecommerce.ProductService.model.ExceptionDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -13,15 +13,20 @@ public class GlobalExpectionHandler {
 
     @ExceptionHandler(SellerAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public SellerExceptionDTO sellerAlreadyExist(SellerAlreadyExistsException  exception){
-        return SellerExceptionDTO.builder().message(exception.getMessage()).httpStatusCode(HttpStatus.BAD_REQUEST).build();
+    public ExceptionDTO sellerAlreadyExist(SellerAlreadyExistsException  exception){
+        return ExceptionDTO.builder().message(exception.getMessage()).httpStatusCode(HttpStatus.BAD_REQUEST).build();
     }
 
     @ExceptionHandler(SellerNotFoundException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public SellerExceptionDTO sellerNotFound(SellerNotFoundException  exception){
-        return SellerExceptionDTO.builder().message(exception.getMessage()).httpStatusCode(HttpStatus.BAD_REQUEST).build();
+    public ExceptionDTO sellerNotFound(SellerNotFoundException  exception){
+        return ExceptionDTO.builder().message(exception.getMessage()).httpStatusCode(HttpStatus.BAD_REQUEST).build();
     }
 
 
+    @ExceptionHandler(ProductNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionDTO productNotFound(ProductNotFoundException  exception){
+        return ExceptionDTO.builder().message(exception.getMessage()).httpStatusCode(HttpStatus.BAD_REQUEST).build();
+    }
 }

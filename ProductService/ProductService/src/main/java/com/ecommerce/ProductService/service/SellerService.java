@@ -1,4 +1,4 @@
-package com.ecommerce.product.service;
+package com.ecommerce.ProductService.service;
 
 import com.ecommerce.ProductService.entity.Seller;
 import com.ecommerce.ProductService.exception.SellerAlreadyExistsException;
@@ -9,9 +9,9 @@ import com.ecommerce.ProductService.model.SellerRequestDTO;
 import java.util.List;
 
 public interface SellerService {
-    List<Seller> getAllSellers();
-    Seller getSellerById(String email) throws SellerNotFoundException;
-    void addSeller(SellerRequestDTO seller) throws SellerAlreadyExistsException;
-    void updateSeller(String email, Seller seller) throws SellerNotFoundException;
-    void deleteSeller(String email) throws SellerNotFoundException;
+    public List<Seller> getAllSellers();
+    public Seller getSellerById(String email) throws SellerNotFoundException;
+    public void addSeller(SellerRequestDTO seller) throws SellerAlreadyExistsException;
+    public void updateSeller(String email, Seller seller) throws SellerNotFoundException;
+    public void deleteSeller(String email) throws SellerNotFoundException;
 }

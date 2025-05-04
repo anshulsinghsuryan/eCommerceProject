@@ -6,7 +6,7 @@ import com.ecommerce.ProductService.exception.SellerAlreadyExistsException;
 
 import com.ecommerce.ProductService.exception.SellerNotFoundException;
 import com.ecommerce.ProductService.model.SellerRequestDTO;
-import com.ecommerce.product.service.SellerService;
+import com.ecommerce.ProductService.service.SellerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;

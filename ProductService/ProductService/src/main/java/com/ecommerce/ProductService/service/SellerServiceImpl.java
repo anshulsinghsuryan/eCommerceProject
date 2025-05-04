@@ -5,7 +5,7 @@ import com.ecommerce.ProductService.exception.SellerAlreadyExistsException;
 import com.ecommerce.ProductService.exception.SellerNotFoundException;
 import com.ecommerce.ProductService.model.SellerRequestDTO;
 import com.ecommerce.ProductService.repository.SellerRepository;
-import com.ecommerce.product.service.SellerService;
+//import com.ecommerce.product.service.SellerService;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
