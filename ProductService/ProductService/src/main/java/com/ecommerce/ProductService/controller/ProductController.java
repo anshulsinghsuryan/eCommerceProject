@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.Operation;
 
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,17 +65,28 @@ public class ProductController {
     @Operation(summary = "Update product details", description = "Updates the product details by product ID")
     @ApiResponse(responseCode = "200", description = "Product updated successfully")
     @PutMapping("/update/{id}")
-    public String updateProduct(@Parameter(description = "ID of the product to be updated") @PathVariable String id,
-                                @RequestBody Product product) throws ProductNotFoundException {
-        productService.updateProduct(id, product);
-        return "Product updated successfully!";
+    public ResponseEntity<String> updateProduct(@Parameter(description = "Product ID of the product to be updated") @PathVariable String id,
+                                                @RequestBody ProductRequestDTO product) throws ProductNotFoundException {
+        Product p = productService.getProductById(id);
+        if(ObjectUtils.isNotEmpty(p)) {
+            p.setProductId(product.getProductId());
+            p.setPrice(product.getPrice());
+            p.setCategory(product.getCategory());
+            p.setDescription(product.getDescription());
+            p.setName(product.getName());
+            productService.updateProduct(id, p);
+            return new ResponseEntity<>("Product updated successfully!", HttpStatus.CREATED);
+
+        }else{
+            throw new ProductNotFoundException("Product not found with Id "+ id);
+        }
     }
 
-    @Operation(summary = "Delete product", description = "Deletes a product by its ID")
+    @Operation(summary = "Delete product", description = "Deletes a product by its Product ID")
     @ApiResponse(responseCode = "200", description = "Product deleted successfully")
     @ApiResponse(responseCode = "404", description = "Product not found")
     @DeleteMapping("/delete/{id}")
-    public String deleteProduct(@Parameter(description = "ID of the product to be deleted") @PathVariable String id) throws ProductNotFoundException {
+    public String deleteProduct(@Parameter(description = "Product ID of the product to be deleted") @PathVariable String id) throws ProductNotFoundException {
         productService.deleteProduct(id);
         return "Product deleted successfully!";
     }
