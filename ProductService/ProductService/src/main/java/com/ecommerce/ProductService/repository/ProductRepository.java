@@ -13,4 +13,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("Select p from Product p where productId = :productID")
     Product existsByProductId(@PathVariable  String productId);
+
+    @Query("Select p from Product p")
+    List<Product> findAllProduct();
 }

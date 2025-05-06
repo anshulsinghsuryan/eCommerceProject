@@ -37,7 +37,7 @@ public class InventoryServiceImpl implements InventoryService{
             Optional<Inventory> inventoryOptional = inventoryRepository.findByProductId(productId);
             if (inventoryOptional.isPresent()) {
                 Inventory inventory = inventoryOptional.get();
-                inventory.setQuantity(quantity);
+                inventory.setQuantity(inventory.getQuantity() + quantity);
                 inventoryRepository.save(inventory);
             } else {
                 throw new RuntimeException("Product not found in inventory");
@@ -54,6 +54,7 @@ public class InventoryServiceImpl implements InventoryService{
                 inventoryResponse.setMessage(InventoryMessage.In_Stock.name());
                 inventory.setQuantity(inventory.getQuantity()-1);
                 inventoryRepository.save(inventory);
+                return InventoryResponse.builder().quantity(inventory.getQuantity()).message(InventoryMessage.In_Stock.name()).build();
             }
 
         } else {

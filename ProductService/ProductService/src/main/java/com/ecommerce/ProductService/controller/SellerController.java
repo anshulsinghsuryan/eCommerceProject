@@ -51,9 +51,18 @@ public class SellerController {
     @ApiResponse(responseCode = "200", description = "Successfully updated seller")
     @PutMapping("/update/{email}")
     public String updateSeller(@Parameter(description = "Seller ID") @PathVariable String email,
-                               @RequestBody Seller seller) throws SellerNotFoundException {
-        sellerService.updateSeller(email, seller);
-        return "Seller updated successfully!";
+                               @RequestBody SellerRequestDTO seller) throws SellerNotFoundException {
+        Seller seller1 = sellerService.getSellerById(email);
+        if(seller1 != null){
+            seller1.setSellerName(seller.getSellerName());
+            seller1.setEmail(email);
+            seller1.setPhone(seller.getPhone());
+            sellerService.updateSeller(email, seller1);
+            return "Seller updated successfully!";
+        }else{
+            throw new SellerNotFoundException("Seller not found with seller email id "+ email );
+        }
+
     }
 
     @Operation(summary = "Delete seller", description = "Deletes a seller based on ID")

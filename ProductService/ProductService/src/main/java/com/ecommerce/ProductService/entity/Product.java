@@ -1,5 +1,6 @@
 package com.ecommerce.ProductService.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,5 +22,6 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "seller_id", nullable = false)
+    @JsonIgnore
     private Seller seller;  // Each product is linked to a seller
 }

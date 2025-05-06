@@ -3,6 +3,7 @@ package com.ecommerce.InventoryService.controller;
 
 
 import com.ecommerce.InventoryService.entity.Inventory;
+import com.ecommerce.InventoryService.model.InventoryRequestDTO;
 import com.ecommerce.InventoryService.model.InventoryResponse;
 import com.ecommerce.InventoryService.service.InventoryService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,7 +41,7 @@ public class InventoryController {
     @Operation(summary = "Get inventory by seller ID", description = "Fetches all inventory items by seller ID")
     @ApiResponse(responseCode = "200", description = "List of inventory for the seller fetched successfully")
     @ApiResponse(responseCode = "404", description = "Seller not found")
-    @GetMapping("inventory/{sellerId}")
+    @GetMapping("/{sellerId}")
     public List<Inventory> getAllInventoryBySeller(@Parameter(description = "ID of the seller to fetch inventory") @PathVariable String sellerId) {
         return inventoryService.getAllInventoryBySeller(sellerId);
     }
@@ -48,8 +49,9 @@ public class InventoryController {
     @Operation(summary = "Add stock to inventory", description = "Adds a new stock entry to the inventory")
     @ApiResponse(responseCode = "201", description = "Stock added successfully")
     @PostMapping("/add")
-    public String addStock(@RequestBody Inventory inventory) {
-        inventoryService.addStock(inventory);
+    public String addStock(@RequestBody InventoryRequestDTO inventory) {
+
+        inventoryService.addStock(Inventory.builder().quantity(inventory.getQuantity()).sellerId(inventory.sellerId).productId(inventory.getProductId()).build());
         return "Stock added successfully!";
     }
 

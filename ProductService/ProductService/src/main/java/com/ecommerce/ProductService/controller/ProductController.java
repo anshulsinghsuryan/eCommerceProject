@@ -59,7 +59,7 @@ public class ProductController {
         product1.setProductId(String.valueOf(UUID.randomUUID()));
         productService.addProduct(product1);
 
-        return new ResponseEntity<>("Product added successfully!", HttpStatus.CREATED);
+        return new ResponseEntity<>("Product added successfully - Product ID - " + product1.getProductId(), HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update product details", description = "Updates the product details by product ID")
@@ -69,7 +69,6 @@ public class ProductController {
                                                 @RequestBody ProductRequestDTO product) throws ProductNotFoundException {
         Product p = productService.getProductById(id);
         if(ObjectUtils.isNotEmpty(p)) {
-            p.setProductId(product.getProductId());
             p.setPrice(product.getPrice());
             p.setCategory(product.getCategory());
             p.setDescription(product.getDescription());

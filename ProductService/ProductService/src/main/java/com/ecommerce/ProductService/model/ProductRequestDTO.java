@@ -8,7 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductRequestDTO {
-private String productId;
     private String description;
     private String name;
     private double price;
