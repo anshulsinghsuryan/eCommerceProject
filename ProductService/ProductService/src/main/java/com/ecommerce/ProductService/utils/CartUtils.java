@@ -1,7 +1,6 @@
-package com.ecommerce.ProductService;
+package com.ecommerce.ProductService.utils;
 
 import com.ecommerce.ProductService.entity.Cart;
-import com.ecommerce.ProductService.entity.CartItem;
 import com.ecommerce.ProductService.exception.CartNotFoundException;
 import com.ecommerce.ProductService.model.CartItemResponse;
 import com.ecommerce.ProductService.model.CartResponse;

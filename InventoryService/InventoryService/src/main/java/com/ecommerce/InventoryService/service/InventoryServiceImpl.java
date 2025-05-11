@@ -1,6 +1,6 @@
 package com.ecommerce.InventoryService.service;
 
-import com.ecommerce.InventoryService.ProductNotFoundException;
+import com.ecommerce.InventoryService.exception.ProductNotFoundException;
 import com.ecommerce.InventoryService.entity.Inventory;
 import com.ecommerce.InventoryService.model.InventoryMessage;
 import com.ecommerce.InventoryService.model.InventoryResponse;

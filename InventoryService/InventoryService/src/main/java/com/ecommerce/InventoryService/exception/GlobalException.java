@@ -1,4 +1,4 @@
-package com.ecommerce.InventoryService;
+package com.ecommerce.InventoryService.exception;
 
 import com.ecommerce.InventoryService.model.ExceptionDTO;
 

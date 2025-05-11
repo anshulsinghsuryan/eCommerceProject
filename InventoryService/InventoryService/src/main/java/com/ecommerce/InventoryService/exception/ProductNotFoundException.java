@@ -1,4 +1,4 @@
-package com.ecommerce.InventoryService;
+package com.ecommerce.InventoryService.exception;
 
 public class ProductNotFoundException extends  RuntimeException{
 

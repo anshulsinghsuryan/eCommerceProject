@@ -1,6 +1,6 @@
 package com.ecommerce.ProductService.service;
 
-import com.ecommerce.ProductService.CartUtils;
+import com.ecommerce.ProductService.utils.CartUtils;
 import com.ecommerce.ProductService.client.InventoryClient;
 import com.ecommerce.ProductService.client.OrderClient;
 import com.ecommerce.ProductService.entity.Cart;
