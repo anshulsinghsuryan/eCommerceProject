@@ -9,12 +9,14 @@ import com.ecommerce.orderService.models.OrderItemResponse;
 import com.ecommerce.orderService.models.OrderResponse;
 import com.ecommerce.orderService.repository.OrderDetailsRepository;
 import com.ecommerce.orderService.repository.OrderItemRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,6 +38,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService{
         orderDetails.getOrderItems().forEach(orderItem -> {
             InventoryResponse inventoryResponse= inventoryClient.decreaseStock(orderItem.getProductID());
             if(inventoryResponse.getMessage().equals(CommonEnum.In_Stock.name())){
+                orderItem.setStatus(CommonEnum.Created.toString());
                 listInventoryResponse.add(orderItem);
             }
         });
@@ -56,18 +59,60 @@ public class OrderDetailsServiceImpl implements OrderDetailsService{
     }
 
     @Override
-    public OrderDetails getOrderDetailsById(Long id) {
-        return orderDetailsRepository.findById(id).orElseThrow( () -> new RuntimeException("Id not found -> " +id));
+    public OrderResponse getOrderDetailsById(String id) {
+        OrderDetails orderDetails =  orderDetailsRepository.findById(id).orElseThrow( () -> new RuntimeException("Id not found -> " +id));
+        OrderResponse orderResponse = new OrderResponse();
+        orderResponse.setOrderId(orderDetails.getOrderId());
+        orderResponse.setStatus(CommonEnum.Created.name());
+        List<OrderItemResponse> orderItemResponseList = new ArrayList<>();
+        orderDetails.getOrderItems().forEach(item ->{
+           OrderItemResponse orderItemResponse = new OrderItemResponse();
+           orderItemResponse.setStatus(item.getStatus());
+           orderItemResponse.setProductId(item.getProductID());
+           orderItemResponse.setProductName(item.getProductName());
+           orderItemResponseList.add(orderItemResponse);
+        });
+        orderResponse.setOrderItemResponseList(orderItemResponseList);
+        return orderResponse;
     }
 
     @Override
-    public List<OrderDetails> getOrderDetailsByUser(Long userId) {
-        return orderDetailsRepository.getOrderDetailsByUserId(userId);
+    public List<OrderResponse> getOrderDetailsByUser(String userId) {
+        List<OrderDetails> orderDetailsList = orderDetailsRepository.getOrderDetailsByUserId(userId);
+        List<OrderResponse> orderResponses = new ArrayList<>();
+        orderDetailsList.forEach(orderDetails->{
+            OrderResponse orderResponse = new OrderResponse();
+            orderResponse.setOrderId(orderDetails.getOrderId());
+            orderResponse.setStatus(CommonEnum.Created.name());
+            List<OrderItemResponse> orderItemResponseList = new ArrayList<>();
+            orderDetails.getOrderItems().forEach(item ->{
+                OrderItemResponse orderItemResponse = new OrderItemResponse();
+                orderItemResponse.setStatus(item.getStatus());
+                orderItemResponse.setProductId(item.getProductID());
+                orderItemResponse.setProductName(item.getProductName());
+                orderItemResponseList.add(orderItemResponse);
+            });
+            orderResponse.setOrderItemResponseList(orderItemResponseList);
+            orderResponses.add(orderResponse);
+        });
+        return orderResponses;
     }
 
     @Override
-    public void updateOrderDetailsStatus(Long id, String orderStatus) {
-        OrderItem orderItem = orderItemRepository.findById(id).orElse(null);
+    public void updateOrderDetailsStatus(String id, String productId, String orderStatus) {
+        Optional<OrderDetails> optionalOrderDetails = orderDetailsRepository.findById(id);
+        if (optionalOrderDetails.isEmpty()) {
+            throw new EntityNotFoundException("OrderDetails not found for id: " + id);
+        }
+
+        OrderDetails orderDetails = optionalOrderDetails.get();
+
+        OrderItem orderItem = orderDetails.getOrderItems()
+                .stream()
+                .filter(item -> productId.equals(item.getProductID()))
+                .findFirst()
+                .orElseThrow(() -> new EntityNotFoundException("OrderItem not found for productId: " + productId));
+
         orderItem.setStatus(orderStatus);
         orderItemRepository.save(orderItem);
     }

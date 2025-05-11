@@ -9,9 +9,9 @@ public interface OrderDetailsService {
 
     OrderResponse addOrderDetails(OrderDetails orderDetails);
 
-    OrderDetails getOrderDetailsById(Long id);
+    OrderResponse getOrderDetailsById(String id);
 
-    List<OrderDetails> getOrderDetailsByUser(Long userId);
+    List<OrderResponse> getOrderDetailsByUser(String userId);
 
-    void updateOrderDetailsStatus(Long id, String orderStatus);
+    void updateOrderDetailsStatus(String id, String productId, String orderStatus);
 }

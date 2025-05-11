@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface OrderDetailsRepository extends JpaRepository<OrderDetails, Long> {
+public interface OrderDetailsRepository extends JpaRepository<OrderDetails, String> {
     @Query("Select o from OrderDetails o where o.userId = :userId")
-    public List<OrderDetails> getOrderDetailsByUserId(@Param("userId") Long userId);
+    public List<OrderDetails> getOrderDetailsByUserId(@Param("userId") String userId);
 
 }
