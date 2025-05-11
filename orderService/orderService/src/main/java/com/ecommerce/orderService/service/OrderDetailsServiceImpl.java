@@ -9,6 +9,7 @@ import com.ecommerce.orderService.models.OrderItemResponse;
 import com.ecommerce.orderService.models.OrderResponse;
 import com.ecommerce.orderService.repository.OrderDetailsRepository;
 import com.ecommerce.orderService.repository.OrderItemRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService{
     @Autowired
     private InventoryClient inventoryClient;
 
+    @Transactional
     @Override
     public OrderResponse addOrderDetails(OrderDetails orderDetails) {
         List<OrderItem> listInventoryResponse = new ArrayList<>();
@@ -37,6 +39,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService{
                 listInventoryResponse.add(orderItem);
             }
         });
+        listInventoryResponse.forEach(item -> item.setOrderDetails(orderDetails));
         orderDetails.setOrderItems(listInventoryResponse);
         OrderDetails orderDetail = orderDetailsRepository.save(orderDetails);
         return OrderResponse.builder()

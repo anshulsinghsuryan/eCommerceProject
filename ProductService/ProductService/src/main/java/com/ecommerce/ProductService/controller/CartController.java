@@ -1,8 +1,7 @@
 package com.ecommerce.ProductService.controller;
 
 
-import com.ecommerce.ProductService.entity.Cart;
-import com.ecommerce.ProductService.entity.CartItem;
+import com.ecommerce.ProductService.model.CartResponse;
 import com.ecommerce.ProductService.model.OrderResponse;
 import com.ecommerce.ProductService.service.CartService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,16 +22,16 @@ public class CartController {
 
     @Operation(summary = "Add item to cart", description = "Adds a cart item to the user's cart")
     @ApiResponse(responseCode = "200", description = "Successfully added item to cart")
-    @PostMapping("/add/{userId}")
-    public Cart addToCart(@Parameter(description = "User ID") @PathVariable String userId,
-                          @RequestBody CartItem cartItem) {
-        return cartService.addToCart(userId, cartItem);
+    @PostMapping("/add/{userId}/{productId}/{quantity}")
+    public CartResponse addToCart(@Parameter(description = "User ID") @PathVariable String userId,
+                                  @PathVariable String productId, @PathVariable Integer quantity) {
+        return cartService.addToCart(userId, productId, quantity);
     }
 
     @Operation(summary = "Get user cart", description = "Fetches the cart details of a specific user")
     @ApiResponse(responseCode = "200", description = "Successfully fetched cart details")
     @GetMapping("/{userId}")
-    public Cart getCart(@Parameter(description = "User ID") @PathVariable String userId) {
+    public CartResponse getCart(@Parameter(description = "User ID") @PathVariable String userId) {
         return cartService.getCartByUser(userId);
     }
 
@@ -45,10 +44,10 @@ public class CartController {
 
     @Operation(summary = "Remove item from cart", description = "Removes a specific item from the user's cart")
     @ApiResponse(responseCode = "200", description = "Successfully removed item from cart")
-    @DeleteMapping("/remove/{userId}/{itemId}")
+    @DeleteMapping("/remove/{userId}/{productId}")
     public String removeItem(@Parameter(description = "User ID") @PathVariable String userId,
-                             @Parameter(description = "Item ID to remove") @PathVariable Long itemId) {
-        cartService.removeItem(userId, itemId);
+                             @Parameter(description = "Item ID to remove") @PathVariable String productId) {
+        cartService.removeItem(userId, productId);
         return "Item removed successfully!";
     }
 

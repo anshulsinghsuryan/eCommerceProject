@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 @FeignClient(name = "INVENTORYSERVICE" ,fallback = InventoryClientFallback.class)
 public interface InventoryClient {
 
-    @PutMapping("/decrease/{productId}")
-    public InventoryResponse decreaseStock(@PathVariable String productId);
+    @PutMapping("/inventory/decrease/{productId}")
+    public InventoryResponse decreaseStock(@PathVariable("productId") String productId);
 }

@@ -15,4 +15,3 @@ public class OrderResponse {
     private String status;
     private List<OrderItemResponse> orderItemResponseList;
 }
-

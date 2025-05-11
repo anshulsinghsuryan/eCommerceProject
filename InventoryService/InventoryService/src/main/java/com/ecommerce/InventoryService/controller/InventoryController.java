@@ -26,7 +26,7 @@ public class InventoryController {
     @Operation(summary = "Check if product is in stock", description = "Returns true if the product is in stock")
     @ApiResponse(responseCode = "200", description = "Product is in stock")
     @ApiResponse(responseCode = "404", description = "Product not found")
-    @GetMapping("/{productId}")
+    @GetMapping("/product/{productId}")
     public boolean isProductInStock(@Parameter(description = "ID of the product to check stock") @PathVariable String productId) {
         return inventoryService.isInStock(productId);
     }
@@ -41,7 +41,7 @@ public class InventoryController {
     @Operation(summary = "Get inventory by seller ID", description = "Fetches all inventory items by seller ID")
     @ApiResponse(responseCode = "200", description = "List of inventory for the seller fetched successfully")
     @ApiResponse(responseCode = "404", description = "Seller not found")
-    @GetMapping("/{sellerId}")
+    @GetMapping("/seller/{sellerId}")
     public List<Inventory> getAllInventoryBySeller(@Parameter(description = "ID of the seller to fetch inventory") @PathVariable String sellerId) {
         return inventoryService.getAllInventoryBySeller(sellerId);
     }

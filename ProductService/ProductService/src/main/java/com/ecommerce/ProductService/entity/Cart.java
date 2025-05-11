@@ -14,12 +14,12 @@ import java.util.List;
 @Table(name = "cart")
 public class Cart {
         @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
+        @GeneratedValue(strategy = GenerationType.UUID)
+        private String id;
 
         private String userId; // Associate cart with user
 
-        @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+        @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
         private List<CartItem> items;
 
         private double totalPrice;

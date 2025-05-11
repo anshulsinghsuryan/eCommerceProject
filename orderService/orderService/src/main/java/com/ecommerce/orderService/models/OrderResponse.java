@@ -1,12 +1,17 @@
 package com.ecommerce.orderService.models;
 
-import lombok.Builder;
+import lombok.*;
 
 import java.util.List;
 
 @Builder
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class OrderResponse {
     private Long orderId ;
-    private List<OrderItemResponse> orderItemResponseList;
     private String status;
+    private List<OrderItemResponse> orderItemResponseList;
 }

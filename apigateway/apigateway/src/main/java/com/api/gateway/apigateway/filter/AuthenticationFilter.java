@@ -8,6 +8,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+
 @Component
 public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
 
@@ -34,10 +36,16 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                     authHeader = authHeader.substring(7);
                 }
                 try {
-//                    //REST call to AUTH service
-//                    template.getForObject("http://IDENTITY-SERVICE//validate?token" + authHeader, String.class);
-
                     jwtUtil.validateToken(authHeader);
+                    String path = exchange.getRequest().getURI().getPath();
+                    List<String> roles = jwtUtil.extractRoles(authHeader);
+                    if (path.startsWith("/admin") && !roles.contains("ROLE_ADMIN")) {
+                        throw new RuntimeException("Unauthorized: Admin role required");
+                    }
+
+                    if (path.startsWith("/user") && !(roles.contains("ROLE_USER") || roles.contains("ROLE_ADMIN"))) {
+                        throw new RuntimeException("Unauthorized: User role required");
+                    }
 
                 } catch (Exception e) {
                     System.out.println("invalid access...!");
