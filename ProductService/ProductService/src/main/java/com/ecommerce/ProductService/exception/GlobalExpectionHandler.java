@@ -29,4 +29,10 @@ public class GlobalExpectionHandler {
     public ExceptionDTO productNotFound(ProductNotFoundException  exception){
         return ExceptionDTO.builder().message(exception.getMessage()).httpStatusCode(HttpStatus.BAD_REQUEST).build();
     }
+
+    @ExceptionHandler(CartNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionDTO cartNotFound(CartNotFoundException  exception){
+        return ExceptionDTO.builder().message(exception.getMessage()).httpStatusCode(HttpStatus.BAD_REQUEST).build();
+    }
 }

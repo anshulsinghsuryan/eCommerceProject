@@ -1,5 +1,6 @@
 package com.ecommerce.InventoryService.service;
 
+import com.ecommerce.InventoryService.ProductNotFoundException;
 import com.ecommerce.InventoryService.entity.Inventory;
 import com.ecommerce.InventoryService.model.InventoryMessage;
 import com.ecommerce.InventoryService.model.InventoryResponse;
@@ -40,7 +41,7 @@ public class InventoryServiceImpl implements InventoryService{
                 inventory.setQuantity(inventory.getQuantity() + quantity);
                 inventoryRepository.save(inventory);
             } else {
-                throw new RuntimeException("Product not found in inventory");
+                throw new ProductNotFoundException("Product not found in inventory");
             }
         }
 
@@ -58,7 +59,7 @@ public class InventoryServiceImpl implements InventoryService{
             }
 
         } else {
-            throw new RuntimeException("Product out of Stock in inventory");
+            throw new ProductNotFoundException("Product out of Stock in inventory");
         }
 
         return InventoryResponse.builder().quantity(0).message(InventoryMessage.Out_of_Stock.name()).build();

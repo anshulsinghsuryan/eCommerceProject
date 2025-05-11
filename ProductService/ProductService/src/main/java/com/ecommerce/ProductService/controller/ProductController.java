@@ -41,7 +41,7 @@ public class ProductController {
     @ApiResponse(responseCode = "200", description = "Successfully fetched product details")
     @ApiResponse(responseCode = "404", description = "Product not found")
     @GetMapping("/{id}")
-    public Product getProductById(@Parameter(description = "Product ID of the product to be fetched") @PathVariable String id) {
+    public Product getProductById(@Parameter(description = "Product ID of the product to be fetched") @PathVariable String id) throws ProductNotFoundException {
         return productService.getProductById(id);
     }
 

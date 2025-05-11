@@ -6,6 +6,8 @@ import com.ecommerce.ProductService.client.OrderClient;
 import com.ecommerce.ProductService.entity.Cart;
 import com.ecommerce.ProductService.entity.CartItem;
 import com.ecommerce.ProductService.entity.Product;
+import com.ecommerce.ProductService.exception.CartNotFoundException;
+import com.ecommerce.ProductService.exception.ProductNotFoundException;
 import com.ecommerce.ProductService.model.*;
 import com.ecommerce.ProductService.repository.CartItemRepository;
 import com.ecommerce.ProductService.repository.CartRepository;
@@ -41,7 +43,7 @@ public class CartService {
         return cartRepository.save(cart);
     }
 
-    public Cart addToCarts(String userId, String productId, int quantity) {
+    public Cart addToCarts(String userId, String productId, int quantity) throws ProductNotFoundException {
         Cart cart =  cartRepository.findByUserId(userId).orElse(new Cart());
 
         Product product = productService.getProductById(productId);
@@ -65,7 +67,7 @@ public class CartService {
         return cartRepository.save(cart);
     }
 
-    public CartResponse addToCart(String userId, String productId, int quantity) {
+    public CartResponse addToCart(String userId, String productId, int quantity) throws ClassNotFoundException, ProductNotFoundException {
         Cart cart = cartRepository.findByUserId(userId).orElse(null);
 
         if (cart == null) {
@@ -109,14 +111,14 @@ public class CartService {
         return CartUtils.cartToResponse(savedCart);
     }
 
-    public CartResponse getCartByUser(String userId) {
+    public CartResponse getCartByUser(String userId) throws CartNotFoundException {
         Cart cart =  cartRepository.findByUserId(userId).orElse(null);
         return CartUtils.cartToResponse(cart);
     }
 
     @Transactional
     public void removeItem(String userId, String productId) {
-        Cart cart = cartRepository.findByUserId(userId).orElseThrow(() -> new RuntimeException("Cart not found"));
+        Cart cart = cartRepository.findByUserId(userId).orElseThrow(() -> new CartNotFoundException("Cart not found"));
         double sum = cart.getItems().stream().filter(item -> item.getProductId().equals(productId)).mapToDouble(carts -> carts.getPrice()*carts.getQuantity()).sum();
         cart.setTotalPrice(cart.getTotalPrice() - sum);
         cartRepository.save(cart);
@@ -125,14 +127,14 @@ public class CartService {
 
     @Transactional
     public void clearCart(String userId) {
-        Cart cart = cartRepository.findByUserId(userId).orElseThrow(() -> new RuntimeException("Cart not found"));
+        Cart cart = cartRepository.findByUserId(userId).orElseThrow(() -> new CartNotFoundException("Cart not found"));
         cart.getItems().clear();
         cart.setTotalPrice(0.0);
         cartItemRepository.deleteProductFromCart(cart.getId());
         cartRepository.save(cart);
     }
 
-    public OrderResponse getOrderPlacedCart(String userId) {
+    public OrderResponse getOrderPlacedCart(String userId) throws CartNotFoundException {
         CartResponse cart = getCartByUser(userId);
         OrderResponse orderResponse = new OrderResponse();
         cart.setItems(cart.getItems().stream().filter(item -> inventoryClient.isProductInStock(item.getProductId()))

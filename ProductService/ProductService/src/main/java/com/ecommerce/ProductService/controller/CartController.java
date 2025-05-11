@@ -1,6 +1,8 @@
 package com.ecommerce.ProductService.controller;
 
 
+import com.ecommerce.ProductService.exception.CartNotFoundException;
+import com.ecommerce.ProductService.exception.ProductNotFoundException;
 import com.ecommerce.ProductService.model.CartResponse;
 import com.ecommerce.ProductService.model.OrderResponse;
 import com.ecommerce.ProductService.service.CartService;
@@ -24,21 +26,21 @@ public class CartController {
     @ApiResponse(responseCode = "200", description = "Successfully added item to cart")
     @PostMapping("/add/{userId}/{productId}/{quantity}")
     public CartResponse addToCart(@Parameter(description = "User ID") @PathVariable String userId,
-                                  @PathVariable String productId, @PathVariable Integer quantity) {
+                                  @PathVariable String productId, @PathVariable Integer quantity) throws ClassNotFoundException, ProductNotFoundException {
         return cartService.addToCart(userId, productId, quantity);
     }
 
     @Operation(summary = "Get user cart", description = "Fetches the cart details of a specific user")
     @ApiResponse(responseCode = "200", description = "Successfully fetched cart details")
     @GetMapping("/{userId}")
-    public CartResponse getCart(@Parameter(description = "User ID") @PathVariable String userId) {
+    public CartResponse getCart(@Parameter(description = "User ID") @PathVariable String userId) throws CartNotFoundException {
         return cartService.getCartByUser(userId);
     }
 
     @Operation(summary = "Place an order", description = "Places an order based on the user's cart")
     @ApiResponse(responseCode = "200", description = "Successfully placed the order")
     @PostMapping("/place/{userId}")
-    public OrderResponse getOrderPlaced(@Parameter(description = "User ID") @PathVariable String userId) {
+    public OrderResponse getOrderPlaced(@Parameter(description = "User ID") @PathVariable String userId) throws CartNotFoundException {
         return cartService.getOrderPlacedCart(userId);
     }
 

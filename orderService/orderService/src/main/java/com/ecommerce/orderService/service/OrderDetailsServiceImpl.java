@@ -3,6 +3,7 @@ package com.ecommerce.orderService.service;
 import com.ecommerce.orderService.client.InventoryClient;
 import com.ecommerce.orderService.entity.OrderDetails;
 import com.ecommerce.orderService.entity.OrderItem;
+import com.ecommerce.orderService.exception.OrderDetailsNotFound;
 import com.ecommerce.orderService.models.CommonEnum;
 import com.ecommerce.orderService.models.InventoryResponse;
 import com.ecommerce.orderService.models.OrderItemResponse;
@@ -60,7 +61,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService{
 
     @Override
     public OrderResponse getOrderDetailsById(String id) {
-        OrderDetails orderDetails =  orderDetailsRepository.findById(id).orElseThrow( () -> new RuntimeException("Id not found -> " +id));
+        OrderDetails orderDetails =  orderDetailsRepository.findById(id).orElseThrow( () -> new OrderDetailsNotFound("Id not found -> " +id));
         OrderResponse orderResponse = new OrderResponse();
         orderResponse.setOrderId(orderDetails.getOrderId());
         orderResponse.setStatus(CommonEnum.Created.name());
@@ -102,7 +103,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService{
     public void updateOrderDetailsStatus(String id, String productId, String orderStatus) {
         Optional<OrderDetails> optionalOrderDetails = orderDetailsRepository.findById(id);
         if (optionalOrderDetails.isEmpty()) {
-            throw new EntityNotFoundException("OrderDetails not found for id: " + id);
+            throw new OrderDetailsNotFound("OrderDetails not found for id: " + id);
         }
 
         OrderDetails orderDetails = optionalOrderDetails.get();
@@ -111,7 +112,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService{
                 .stream()
                 .filter(item -> productId.equals(item.getProductID()))
                 .findFirst()
-                .orElseThrow(() -> new EntityNotFoundException("OrderItem not found for productId: " + productId));
+                .orElseThrow(() -> new OrderDetailsNotFound("OrderItem not found for productId: " + productId));
 
         orderItem.setStatus(orderStatus);
         orderItemRepository.save(orderItem);

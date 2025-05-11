@@ -2,15 +2,20 @@ package com.ecommerce.ProductService;
 
 import com.ecommerce.ProductService.entity.Cart;
 import com.ecommerce.ProductService.entity.CartItem;
+import com.ecommerce.ProductService.exception.CartNotFoundException;
 import com.ecommerce.ProductService.model.CartItemResponse;
 import com.ecommerce.ProductService.model.CartResponse;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CartUtils {
 
-    public static CartResponse cartToResponse(Cart cart){
+    public static CartResponse cartToResponse(Cart cart) throws CartNotFoundException {
+        if(ObjectUtils.isEmpty(cart)){
+            throw new CartNotFoundException("Cart Not Found");
+        }
         CartResponse cartResponse = new CartResponse();
         cartResponse.setUserId(cart.getUserId());
         cartResponse.setTotalPrice(cart.getTotalPrice());
