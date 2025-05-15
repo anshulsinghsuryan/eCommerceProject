@@ -39,11 +39,11 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                     jwtUtil.validateToken(authHeader);
                     String path = exchange.getRequest().getURI().getPath();
                     List<String> roles = jwtUtil.extractRoles(authHeader);
-                    if (path.startsWith("/admin") && !roles.contains("ROLE_ADMIN")) {
+                    if (path.startsWith("/admin") && !roles.contains("ADMIN")) {
                         throw new RuntimeException("Unauthorized: Admin role required");
                     }
 
-                    if (path.startsWith("/user") && !(roles.contains("ROLE_USER") || roles.contains("ROLE_ADMIN"))) {
+                    if (path.startsWith("/user") && !(roles.contains("USER") || roles.contains("ADMIN"))) {
                         throw new RuntimeException("Unauthorized: User role required");
                     }
 
